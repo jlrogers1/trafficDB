@@ -15,7 +15,7 @@
 				$query2=mysql_query("SELECT `times`.`timeSlot` FROM `trafficDB`.`times` WHERE `timeID`='$time';");
 				$query3=mysql_fetch_array($query2);
 				while ($row = $check=mysql_fetch_array($query1)){
-					if ($row['total'] < 5){
+					if ($row['total'] < 1000){ //Temporary removal of limit
 						$query4=mysql_query("INSERT INTO `trafficDB`.`reservations` (`resID`, `userID`, `intID`, `timeID`, `monthID`, `dayID`, `yearID`, `data`) VALUES (NULL, '$userID', '$intersection', '$time', '$month', '$day', '$year', NULL);");
 						if($query4)
 						{
@@ -99,5 +99,8 @@
 			<input type="submit" name="submit"/>
 			<input type="button" onclick="window.location.href='reserve.php'" value="Cancel"/>
 		</form>
+		<div>
+			<img src="images/hpints.jpg" alt="High Priority Intersections" style="width:1056px;height:816px">
+		</div>
 	</body>
 </html>		
