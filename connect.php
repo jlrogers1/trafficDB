@@ -10,7 +10,6 @@
 		$serveruser = $autharray["userName"];
 		$serverpass = $autharray["userPass"];
 		mysql_close();
-		
 		if ($inputuser == $serveruser && $inputpass == $serverpass){
 			session_start();
 			$_SESSION['ID'] = $serverID;

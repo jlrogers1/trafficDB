@@ -2,13 +2,6 @@
 	session_start();
 	$userID = $_SESSION['ID'];
 	$userName = $_SESSION['UN'];
-	if($userName&&$userID){
-		require_once('config.php');
-		} else{
-		$userName = "INVALID";
-		$userID = "INVALID";
-		header("Location: fail.php");
-	}
 ?>
 
 <!DOCTYPE html>
@@ -58,8 +51,9 @@
 			<div class="inner" align="center">
 				<h2 style="color: #000000">Welcome to the TrafficDB,  <?= $userName;?>!</h2>
 				<h3 style="color: #000000">YOUR CURRENT RESERVATIONS</h3>
+				
 				<?php
-					include('config.php');
+					require_once('config.php');
 					$query1=mysql_query("SELECT `reservations`.`resID`, `reservations`.`userID`, `reservations`.`intID`, `reservations`.`timeID`, `reservations`.`yearID`, `reservations`.`monthID`, `reservations`.`dayID`, `intersections`.`intName`, `times`.`timeSlot`, `years`.`yearName`, `months`.`monthName`, `days`.`dayName` FROM `trafficDB`.`reservations`, `trafficDB`.`intersections`, `trafficDB`.`times`, `trafficDB`.`months`, `trafficDB`.`days`, `trafficDB`.`years` WHERE `reservations`.`intID` = `intersections`.`intID` AND `reservations`.`timeID` = `times`.`timeID` AND `reservations`.`monthID` = `months`.`monthID` AND `reservations`.`dayID` = `days`.`dayID` AND `reservations`.`yearID` = `years`.`yearID` AND `reservations`.`userID` = '$userID' AND `reservations`.`data` IS NULL;");
 					echo "<table style=\"background-color:white;width:90%\"><tr><td><strong>Date</strong></td><td><strong>Time</strong></td><td><strong>Intersection</strong></td><td colspan=\"3\"><a href='add.php'>NEW RESERVATION</a></td>";
 					$pretty=0;
@@ -82,7 +76,6 @@
 			</table>
 			<h3 style="color: #000000">YOUR UPLOAD HISTORY</h3>
 			<?php
-				include('config.php');
 				$query3=mysql_query("SELECT `reservations`.`resID`, `reservations`.`userID`, `reservations`.`intID`, `reservations`.`timeID`, `reservations`.`yearID`, `reservations`.`monthID`, `reservations`.`dayID`, `intersections`.`intName`, `times`.`timeSlot`, `years`.`yearName`, `months`.`monthName`, `days`.`dayName` FROM `trafficDB`.`reservations`, `trafficDB`.`intersections`, `trafficDB`.`times`, `trafficDB`.`months`, `trafficDB`.`days`, `trafficDB`.`years` WHERE `reservations`.`intID` = `intersections`.`intID` AND `reservations`.`timeID` = `times`.`timeID` AND `reservations`.`monthID` = `months`.`monthID` AND `reservations`.`dayID` = `days`.`dayID` AND `reservations`.`yearID` = `years`.`yearID` AND `reservations`.`userID` = '$userID' AND `reservations`.`data` IS NOT NULL;");
 				echo "<table style=\"background-color:white;width:90%\"><tr><td><strong>Date</strong></td><td><strong>Time</strong></td><td><strong>Intersection</strong></td>";
 				$pretty=0;
@@ -98,10 +91,11 @@
 					echo "<td>"."(",$query4['intID'],") ",$query4['intName']."</td></tr>";
 					$pretty++;
 				}
+				mysql_close();
 			?>
 		</table>
 	</div>
 </div>
 </div>
 </body>
-</html>									
+</html>

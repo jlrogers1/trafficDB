@@ -3,32 +3,40 @@
 		<?php
 			session_start();
 			$userID = $_SESSION['ID'];
-			include('config.php');
+			$sure=false;
+			if(isset($_SESSION['SURE'])){
+				$sure = $_SESSION['SURE'];
+			} else {
+				$_SESSION['SURE'] = false;
+			}
+			require_once('config.php');
 			if(isset($_POST['submit']))
 			{
 				$intersection=$_POST['intersection'];
 				$month=$_POST['month'];
 				$day=$_POST['day'];
 				$year=$_POST['year'];
-				$time=$_POST['time'];
-				$query1=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `monthID`='$month' AND `dayID`='$day' AND `yearID`='$year' AND `reservations`.`data` IS NULL;");
+				$time=$_POST['time'];				
+				$query1=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `monthID`='$month' AND `dayID`='$day' AND `yearID`='$year' AND `intID`='$intersection' AND `data` IS NULL;");
 				$query2=mysql_query("SELECT `times`.`timeSlot` FROM `trafficDB`.`times` WHERE `timeID`='$time';");
 				$query3=mysql_fetch_array($query2);
 				while ($row = $check=mysql_fetch_array($query1)){
-					if ($row['total'] < 1000){ //Temporary removal of limit
+					if ($row['total'] < 1 or ($row['total'] >= 1 and $sure==true)){ //Temporary removal of limit
 						$query4=mysql_query("INSERT INTO `trafficDB`.`reservations` (`resID`, `userID`, `intID`, `timeID`, `monthID`, `dayID`, `yearID`, `data`) VALUES (NULL, '$userID', '$intersection', '$time', '$month', '$day', '$year', NULL);");
 						if($query4)
 						{
+							$_SESSION['SURE']=false;
 							header("location:reserve.php");
 						}
 						} else {
-						echo "<h1>\"All devices are reserved on $month/$day/$year at ".$query3['timeSlot'].", please try a different day or time!\"</h1>";
+						
+						echo "{$row['total']} reservation(s) exist for that intersection at the chosen date and time.\r\nTo confirm, please reenter you reservation and submit again.";
+						$_SESSION['SURE']=true;
 					}
 				}
-				
 			}
 		?>
-		<form method="post" action="">
+		<form method="post" action="add.php">
 			<table>
 				<tr>
 					<td>Intersection</td>

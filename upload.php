@@ -1,7 +1,7 @@
 <html>
 	<body>
 		<?php
-			include('config.php');
+			require_once('config.php');
 			if(isset($_GET['id']))
 			{
 				$id=$_GET['id'];
@@ -48,6 +48,7 @@
 			</form>
 			<?php
 			}
+			mysql_close();
 		?>
 	</body>
 </html>																	
