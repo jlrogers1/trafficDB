@@ -94,6 +94,8 @@
 				mysql_close();
 			?>
 		</table>
+		<h3 style="color: #000000">TRAFFIC COUNT INSTRUCTIONS</h3>
+		<iframe src="http://docs.google.com/gview?url=http://isoptera.lcsc.edu/~trafficDB/documents/traffic_count_instructions.pdf&embedded=true" style="width:718px; height:700px;" frameborder="0"></iframe>
 	</div>
 </div>
 </div>
