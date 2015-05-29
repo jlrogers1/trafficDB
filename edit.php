@@ -12,16 +12,16 @@
 					$day=$_POST['day'];
 					$year=$_POST['year'];
 					$time=$_POST['time'];
-					$query3=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `monthID`='$month' AND `dayID`='$day' AND `yearID`='$year' AND `reservations`.`data` IS NULL;");
+					$query3=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `intID`='$intersection';");
 					while ($row = $check=mysql_fetch_array($query3)){
-						if ($row['total'] < 5){
+						if ($row['total'] < 1){
 							$query4=mysql_query("UPDATE `trafficDB`.`reservations` SET `intID`='$intersection', `timeID`='$time', `monthID`='$month', `dayID`='$day', `yearID`='$year', `timeID`='$time' WHERE `resID`='$id';");
 							if($query4)
 							{
 								header('location:reserve.php');
 							}
 							} else {
-							echo "<h1>\"All devices are reserved on $month/$day/$year at ".$query3['timeSlot'].", please try a different day or time!\"</h1>";
+							echo "Sorry, a reservation already exists for that intersection at the chosen time.";
 						}
 					}
 				}
