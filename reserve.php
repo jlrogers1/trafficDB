@@ -69,7 +69,7 @@
 						echo "<td>"."(",$query2['intID'],") ",$query2['intName']."</td>";
 						echo "<td><a href='upload.php?id=".$query2['resID']."'>Upload</a></td>";
 						echo "<td><a href='edit.php?id=".$query2['resID']."'>Edit</a></td>";
-						echo "<td><a href='delete.php?id=".$query2['resID']."' onclick=\"return confirm('Are you sure? Deleted reservations are gone FOREVER!\\n\\nDate: " .$query2['dayName'],"-",$query2['monthName'],"-",$query2['yearName']."\\nTime: ".$query2['timeSlot']."\\nLoc: "."(",$query2['intID'],") ",$query2['intName']."')\">Delete [X]</a></td></tr>";
+						echo "<td><a href='delete.php?id=".$query2['resID']."' onclick=\"return confirm('Are you sure you want to delete your reservation?\\n\\nDate: " .$query2['dayName'],"-",$query2['monthName'],"-",$query2['yearName']."\\nTime: ".$query2['timeSlot']."\\nLoc: "."(",$query2['intID'],") ",$query2['intName']."')\">Delete [X]</a></td></tr>";
 						$pretty++;
 					}
 				?>

@@ -17,7 +17,7 @@
 				$day=$_POST['day'];
 				$year=$_POST['year'];
 				$time=$_POST['time'];				
-				$query1=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `monthID`='$month' AND `dayID`='$day' AND `yearID`='$year' AND `intID`='$intersection';");
+				$query1=mysql_query("SELECT COUNT(`reservations`.`resID`) AS `total` FROM `trafficDB`.`reservations` WHERE `timeID`='$time' AND `intID`='$intersection';");
 				$query2=mysql_query("SELECT `times`.`timeSlot` FROM `trafficDB`.`times` WHERE `timeID`='$time';");
 				$query3=mysql_fetch_array($query2);
 				while ($row = $check=mysql_fetch_array($query1)){
