@@ -3,12 +3,6 @@
 		<?php
 			session_start();
 			$userID = $_SESSION['ID'];
-			$sure=false;
-			if(isset($_SESSION['SURE'])){
-				$sure = $_SESSION['SURE'];
-			} else {
-				$_SESSION['SURE'] = false;
-			}
 			require_once('config.php');
 			if(isset($_POST['submit']))
 			{
@@ -21,17 +15,14 @@
 				$query2=mysql_query("SELECT `times`.`timeSlot` FROM `trafficDB`.`times` WHERE `timeID`='$time';");
 				$query3=mysql_fetch_array($query2);
 				while ($row = $check=mysql_fetch_array($query1)){
-					if ($row['total'] < 1 or ($row['total'] >= 1 and $sure==true)){ //Temporary removal of limit
+					if ($row['total'] < 1){
 						$query4=mysql_query("INSERT INTO `trafficDB`.`reservations` (`resID`, `userID`, `intID`, `timeID`, `monthID`, `dayID`, `yearID`, `data`) VALUES (NULL, '$userID', '$intersection', '$time', '$month', '$day', '$year', NULL);");
 						if($query4)
 						{
-							$_SESSION['SURE']=false;
 							header("location:reserve.php");
 						}
 						} else {
-						
-						echo "Sorry, a reservation already exists for that intersection at the chosen date and time.";
-						$_SESSION['SURE']=false; //disable
+						echo "Sorry, a reservation already exists for that intersection at the chosen time.";
 					}
 				}
 			}
